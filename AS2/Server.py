@@ -9,4 +9,6 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as socketServer:
 
     while True:
         connection, address=socketServer.accept()
-        print(" server accepted on client address: "+ address)
+        print(" server accepted on client address: ")
+
+print("CONNECTION CLOSED")
