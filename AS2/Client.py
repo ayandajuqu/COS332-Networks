@@ -1,13 +1,25 @@
 #!/usr/bin/env python3 
+
+#Emmanuella Birato u19322594
+#Ayanda Juqu
 import socket 
-import socket
+import telnetlib
 
-adrs=('localhost', 55555)
-with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as socketServer:
-    try:
-        socketServer.connect(adrs)
-        print("Connected to port 55555")
-    except Exception as e:
-        print("Failed to connect to port 55555" + e)
+def main():
+        adrs=('localhost', 55555)
+        with telnetlib.Telnet(adrs[0], adrs[1]) as telnetClient:
+                try:
+                        while True:
+                                question = telnetClient.read_until(b'\n').decode().strip()
+                                print(question)
+                                usrResp=input("Your answer: ")
+                                telnetClient.write(usrResp.encode() + b'\n')
+                                cont = input("Do you want to continue? (yes/no): ")
+                                telnetClient.write(cont.encode() + b'\n')
+                                if cont.lower() != 'yes':
+                                        break
+                                print("Connected to port 55555")
+                except EOFError:
+                        print("Failed to connect to port 55555")
 
-print("CONNECTION CLOSED")
+        print("CONNECTION CLOSED")
