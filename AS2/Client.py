@@ -12,13 +12,21 @@ def main():
                         while True:
                                 question = telnetClient.read_until(b'\n').decode().strip()
                                 print(question)
+
                                 usrResp=input("Your answer: ")
                                 telnetClient.write(usrResp.encode() + b'\n')
-                                cont = input("Do you want to continue? (yes/no): ")
-                                telnetClient.write(cont.encode() + b'\n')
-                                if cont.lower() != 'yes':
+
+                                serverResp = telnetClient.read_until(b'\n').decode().strip()
+                                print(serverResp)
+
+                                if serverResp.lower().startswith('do you want to continue?'):
+                                        cont = input("Do you want to continue? (yes/no): ")
+                                        telnetClient.write(cont.encode() + b'\n')
+                                        if cont.lower() != 'yes':
+                                                break
+                                
+                                else:
                                         break
-                                print("Connected to port 55555")
                 except EOFError:
                         print("Failed to connect to port 55555")
 
